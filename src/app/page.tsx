@@ -1,3 +1,3 @@
 export default function Home() {
-  return <main></main>;
+  return <main className='gap grid h-screen grid-cols-8'></main>;
 }
