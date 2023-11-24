@@ -1,10 +1,18 @@
+import { RepoProvider } from '@/providers/RepoContext';
 import Sidebar from './sections/Sidebar';
+import Graph from './sections/Graph';
 
 export default function Home() {
   return (
-    <main className='gap grid h-screen grid-cols-8'>
-      <div className='col-span-5'></div>
-      <Sidebar />
-    </main>
+    <RepoProvider>
+      <main className='flex h-screen '>
+        <div className='flex-grow'>
+          <Graph />
+        </div>
+        <div className='w-[512px] flex-shrink-0'>
+          <Sidebar />
+        </div>
+      </main>
+    </RepoProvider>
   );
 }
