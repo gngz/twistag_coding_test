@@ -8,8 +8,9 @@ const font = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'Twistag - Compare Commit\'s Activity',
-  description: 'Compare commits activity effortlessly between repositories with our app',
+  title: "Twistag - Compare Commit's Activity",
+  description:
+    'Compare commits activity effortlessly between repositories with our app',
   keywords: ['twistag', 'compare', 'commits', 'activity', 'github'],
 };
 
