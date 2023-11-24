@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { RepositorySchema } from './repository';
+import { APIRepositorySchema } from './repository';
 
 export const SearchResponseSchema = z.object({
-  items: RepositorySchema.array(),
+  items: APIRepositorySchema.array(),
 });
 
 export type SearchResponseDTO = z.input<typeof SearchResponseSchema>;

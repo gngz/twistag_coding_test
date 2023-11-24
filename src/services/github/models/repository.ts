@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const RepositorySchema = z
+export const APIRepositorySchema = z
   .object({
     id: z.number(),
     full_name: z.string(),
@@ -12,4 +12,4 @@ export const RepositorySchema = z
     stars: stargazers_count,
   }));
 
-export type RepositoryModel = z.output<typeof RepositorySchema>;
+export type APIRepositoryModel = z.output<typeof APIRepositorySchema>;
