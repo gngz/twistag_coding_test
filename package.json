@@ -22,6 +22,7 @@
     "stylelint": "^15.11.0",
     "stylelint-config-prettier-scss": "^1.0.0",
     "stylelint-config-standard-scss": "^11.1.0",
+    "uniqolor": "^1.1.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
