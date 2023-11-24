@@ -1,5 +1,6 @@
 'use client';
 import { RepositoryModel } from '@/models/repository';
+import { getRepositoryCommitHistory } from '@/services/github/apis/stats';
 import { APIRepositoryModel } from '@/services/github/models/repository';
 import { generateRandomColor } from '@/utils/colors';
 import React from 'react';
@@ -13,6 +14,7 @@ type UpdateContextType =
   | undefined;
 
 export const RepoContext = createContext<RepositoryModel[]>([]);
+export const StatsContext = createContext<RepositoryModel[]>([]);
 export const RepoUpdateContext = createContext<UpdateContextType>(undefined);
 
 type Props = {
@@ -22,10 +24,16 @@ type Props = {
 export function RepoProvider({ children }: Props) {
   const [repoData, setRepoData] = useState<RepositoryModel[]>([]);
 
-  const addRepository = (repository: APIRepositoryModel) => {
+  const addRepository = async (repository: APIRepositoryModel) => {
+    const data = await getRepositoryCommitHistory(repository.full_name);
     setRepoData((old) => [
       ...old,
-      { ...repository, color: generateRandomColor(), selected: false },
+      {
+        ...repository,
+        color: generateRandomColor(),
+        selected: false,
+        stats: data,
+      },
     ]);
   };
 
