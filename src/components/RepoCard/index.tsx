@@ -1,3 +1,5 @@
+'use client';
+
 import classNames from 'classnames';
 import { DateTime } from 'luxon';
 import React from 'react';
@@ -10,6 +12,7 @@ type Props = {
   lastUpdate: string;
   color: React.CSSProperties['color'];
   dim?: boolean;
+  onRemove?: () => void;
 };
 
 function numberFormat(n: number) {
@@ -23,6 +26,7 @@ export default function RepoCard({
   lastUpdate,
   color,
   dim,
+  onRemove,
 }: Props) {
   const relativeTime = DateTime.fromISO(lastUpdate, {
     locale: 'en',
@@ -53,7 +57,7 @@ export default function RepoCard({
         </div>
       </div>
       <div className='flex items-center'>
-        <DeleteButton />
+        <DeleteButton onClick={() => onRemove && onRemove()} />
       </div>
     </div>
   );
