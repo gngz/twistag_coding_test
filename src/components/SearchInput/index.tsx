@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
+import { useThrottle } from '@uidotdev/usehooks';
 import classNames from 'classnames';
-import React, { createRef, useState } from 'react';
+import React, { createRef, useCallback, useEffect, useState } from 'react';
 import { Search } from 'react-feather';
 
 type Props<T> = {
@@ -18,6 +20,13 @@ export default function SearchInput<T>({
   ...other
 }: Props<T>) {
   const inputRef = createRef<HTMLInputElement>();
+  const [query, setQuery] = useState('');
+  const throttledQuery = useThrottle(query, 200);
+
+  useEffect(() => {
+    onQuery(throttledQuery);
+  }, [throttledQuery]);
+
   return (
     <div className='relative'>
       <div
@@ -31,26 +40,28 @@ export default function SearchInput<T>({
           ref={inputRef}
           className='h-full flex-grow pl-0 text-input focus:outline-0'
           onChange={(e) => {
-            onQuery(e.target.value);
+            setQuery(e.target.value);
           }}
           {...other}
         />
         <Search size={24} />
       </div>
-      <div className='absolute top-full z-10 w-full bg-white'>
-        {results.map((result, idx) => (
-          <button
-            className='flex h-[44px] w-full items-center px-6 hover:bg-search-hover'
-            key={idx}
-            onClick={() => {
-              if (inputRef.current) inputRef.current.value = '';
-              onResultSelect(result);
-            }}
-          >
-            {renderResult(result)}
-          </button>
-        ))}
-      </div>
+      {throttledQuery.length > 0 && (
+        <div className='absolute top-full z-10 w-full rounded-b bg-white'>
+          {results.map((result, idx) => (
+            <button
+              className='flex h-[44px] w-full items-center overflow-hidden px-6 hover:bg-search-hover'
+              key={idx}
+              onClick={() => {
+                if (inputRef.current) inputRef.current.value = '';
+                onResultSelect(result);
+              }}
+            >
+              {renderResult(result)}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
