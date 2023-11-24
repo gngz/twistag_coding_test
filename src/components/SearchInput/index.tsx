@@ -1,6 +1,6 @@
 'use client';
 import classNames from 'classnames';
-import React, { useState } from 'react';
+import React, { createRef, useState } from 'react';
 import { Search } from 'react-feather';
 
 type Props<T> = {
@@ -17,6 +17,7 @@ export default function SearchInput<T>({
   renderResult,
   ...other
 }: Props<T>) {
+  const inputRef = createRef<HTMLInputElement>();
   return (
     <div className='relative'>
       <div
@@ -27,6 +28,7 @@ export default function SearchInput<T>({
       >
         <input
           type='text'
+          ref={inputRef}
           className='h-full flex-grow pl-0 text-input focus:outline-0'
           onChange={(e) => {
             onQuery(e.target.value);
@@ -41,6 +43,7 @@ export default function SearchInput<T>({
             className='flex h-[44px] w-full items-center px-6 hover:bg-search-hover'
             key={idx}
             onClick={() => {
+              if (inputRef.current) inputRef.current.value = '';
               onResultSelect(result);
             }}
           >
