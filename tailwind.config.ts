@@ -11,7 +11,10 @@ const config: Config = {
       colors: {
         primary: '#37374A',
         secondary: '#272736',
+        'primary-dark': '#242432',
         'light-text': '#BFBDD9',
+        'empty-text': '#BCBCF2',
+        'input': '#8383AF',
       },
     },
   },
