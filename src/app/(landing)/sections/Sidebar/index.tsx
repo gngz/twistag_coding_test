@@ -42,6 +42,7 @@ export default function Sidebar({}: Props) {
         {repoData.map((repo) => {
           return (
             <RepoCard
+              key={repo.id}
               repoFullName={repo.full_name}
               stars={repo.stars}
               lastUpdate={repo.updated_at}
