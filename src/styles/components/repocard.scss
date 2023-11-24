@@ -1,0 +1,5 @@
+@layer components {
+  .repo-card {
+    box-shadow: 8px 0px 0px 0px var(--repo-color, #4cca8d) inset;
+  }
+}
