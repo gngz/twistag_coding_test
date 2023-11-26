@@ -33,6 +33,7 @@ Assignment Activities:
 
 **A**: As I said in the previous question, it wasn't possible to style the application the way I wanted.
 Other web-development related skills not demonstrated:
+
 - Website optimization
 - Devployment / DevOps
 - System Design
