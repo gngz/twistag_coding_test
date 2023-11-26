@@ -29,8 +29,8 @@ export function RepositoryProvider({ children }: Props) {
     }
 
     const data = await getRepositoryCommitHistory(repository.full_name);
-    setRepositoryData((old) => [
-      ...old,
+    setRepositoryData((oldRepositoryData) => [
+      ...oldRepositoryData,
       {
         ...repository,
         color: generateRandomColor(),
@@ -41,7 +41,9 @@ export function RepositoryProvider({ children }: Props) {
   };
 
   const removeRepository = (repository: APIRepositoryModel) => {
-    setRepositoryData((old) => old.filter((repo) => repo.id != repository.id));
+    setRepositoryData((oldRepositoryData) =>
+      oldRepositoryData.filter((repo) => repo.id !== repository.id)
+    );
   };
 
   const selectRepository = (id: number | undefined) => {

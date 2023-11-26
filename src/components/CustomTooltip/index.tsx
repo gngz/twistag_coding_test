@@ -1,3 +1,4 @@
+'use client';
 import { DateTime } from 'luxon';
 import { GitCommit } from 'react-feather';
 import { TooltipProps } from 'recharts';
@@ -24,13 +25,16 @@ export default function CustomTooltip({
 }: TooltipProps<string, number>) {
   if (active) {
     const week = Number(label);
-    const commitDate = getWeekDate(week);
+
+    const commitDate = week ? getWeekDate(week) : null;
 
     return (
       <div className='tooltip-shadow flex flex-col items-center bg-white px-4 py-2 text-sm'>
-        <span className='text-tooltip-text'>
-          Week of {formatDate(commitDate)}
-        </span>
+        {commitDate && (
+          <span className='text-tooltip-text'>
+            Week of {formatDate(commitDate)}
+          </span>
+        )}
         <div className='flex flex-col justify-start'>
           {payload &&
             payload.map((data) => {
