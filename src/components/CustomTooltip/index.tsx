@@ -3,10 +3,16 @@ import { DateTime } from 'luxon';
 import { GitCommit } from 'react-feather';
 import { TooltipProps } from 'recharts';
 
+/**
+ * Calculates the date corresponding to a given week number.
+ *
+ * @param {number} week - The week number.
+ * @return {DateTime} The date corresponding to the given week number.
+ */
 function getWeekDate(week: number) {
   const YEAR_WEEKS = 52;
   return DateTime.now().minus({
-    weeks: YEAR_WEEKS - week - 1,
+    weeks: YEAR_WEEKS - week,
   });
 }
 
