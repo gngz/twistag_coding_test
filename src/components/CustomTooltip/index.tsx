@@ -28,15 +28,17 @@ export default function CustomTooltip({
     const commitDate = getWeekDate(week);
 
     return (
-      <div className='tooltip-shadow flex flex-col items-center bg-white px-4 py-2'>
-        <span>Week of {formatDate(commitDate)}</span>
+      <div className='tooltip-shadow flex flex-col items-center bg-white px-4 py-2 text-sm'>
+        <span className='text-tooltip-text'>
+          Week of {formatDate(commitDate)}
+        </span>
         <div className='flex flex-col justify-start'>
           {payload &&
             payload.map((data) => {
               return (
-                <div key={data.name} className='flex gap-2'>
+                <div key={data.name} className='flex items-center gap-2'>
                   <GitCommit color={data.color} />
-                  <span className='text-bold text-black'>
+                  <span className='font-bold text-black'>
                     {data.value} commits
                   </span>
                 </div>
