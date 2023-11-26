@@ -2,12 +2,13 @@
 import EmptyState from '@/components/EmptyState';
 import RepositoryCard from '@/components/RepositoryCard';
 import SearchInput from '@/components/SearchInput';
+import { config } from '@/config';
 import {
   RepositoryContext,
   RepositoryUtilsContext,
   SelectedRepositoryContext,
 } from '@/providers/RepositoryProvider';
-import { searchRepo } from '@/services/github';
+import { searchRepository } from '@/services/github';
 import { APIRepositoryModel } from '@/services/github/models/repository';
 import { useCallback, useContext, useState } from 'react';
 import SearchInputResult from './Result';
@@ -52,21 +53,12 @@ export default function Sidebar() {
 
   const onQueryHandler = useCallback(async (query: string) => {
     if (query.length > 0) {
-      const results = await searchRepo(query);
+      const results = await searchRepository(query, config.maxSearchResult);
       setResults(results ?? []);
     } else {
       setResults([]);
     }
   }, []);
-
-  async (query: string) => {
-    if (query.length > 0) {
-      const results = await searchRepo(query);
-      setResults(results ?? []);
-    } else {
-      setResults([]);
-    }
-  };
 
   return (
     <aside className='col-span-3 h-full w-full bg-primary px-8 pt-20'>
