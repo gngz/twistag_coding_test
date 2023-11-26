@@ -1,4 +1,5 @@
 'use client';
+import { config } from '@/config';
 import { useDebounce } from '@uidotdev/usehooks';
 import classNames from 'classnames';
 import React, { createRef, useEffect, useState } from 'react';
@@ -20,7 +21,8 @@ export default function SearchInput<T>({
 }: Props<T>) {
   const inputRef = createRef<HTMLInputElement>();
   const [query, setQuery] = useState('');
-  const debouncedQuery = useDebounce(query, 200);
+  const debounceTime = config.debounceTime;
+  const debouncedQuery = useDebounce(query, debounceTime);
 
   useEffect(() => {
     onQuery(debouncedQuery);
