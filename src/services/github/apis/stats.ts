@@ -1,10 +1,15 @@
+import { config } from '@/config';
 import { CommitHistoryResponseSchema } from '../models/commit-history-response';
 
 export async function getRepositoryCommitHistory(repoName: string) {
   try {
     const response = await fetch(
-      `https://api.github.com/repos/${repoName}/stats/participation`,
-      {}
+      `${config.githubBaseUrl}/repos/${repoName}/stats/participation`,
+      {
+        next: {
+          revalidate: 60,
+        },
+      }
     );
 
     const rawData = await response.json();
