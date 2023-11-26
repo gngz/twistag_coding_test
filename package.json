@@ -7,7 +7,7 @@
     "dev": "next dev",
     "test": "jest",
     "build": "next build",
-    "build-image": "docker build -t twistag_challenge:$npm_package_version -f ./.docker/Dockerfile.production .",
+    "build-image": "docker build -t twistag_challenge:$npm_package_version -f ./.docker/production/Dockerfile .",
     "start": "next start",
     "lint": "next lint",
     "lint-format": "prettier . --check",
