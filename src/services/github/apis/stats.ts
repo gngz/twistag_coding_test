@@ -1,22 +1,33 @@
 import { config } from '@/config';
-import { CommitHistoryResponseSchema } from '../models/commit-history-response';
+import {
+  CommitHistoryModel,
+  CommitHistoryResponseSchema,
+} from '../models/commit-history-response';
 
-export async function getRepositoryCommitHistory(repoName: string) {
+/**
+ * Retrieves the commit history for a given repository.
+ *
+ * @param {string} repoName - The name of the repository.
+ * @return {Promise<CommitHistoryModel>} A promise that resolves to the commit history model.
+ * @throws {Error} If the search request fails.
+ */
+export async function getRepositoryCommitHistory(
+  repoName: string
+): Promise<CommitHistoryModel> {
   try {
-    const response = await fetch(
-      `${config.githubBaseUrl}/repos/${repoName}/stats/participation`,
-      {
-        next: {
-          revalidate: 60,
-        },
-      }
-    );
+    const url = `${config.githubBaseUrl}/repos/${repoName}/stats/participation`;
+    const options = {
+      next: {
+        revalidate: 60,
+      },
+    };
 
-    const rawData = await response.json();
-
+    const response = await fetch(url, options);
     if (response.ok) {
-      const result = CommitHistoryResponseSchema.parse(rawData);
-      return result;
+      const rawData = await response.json();
+      return CommitHistoryResponseSchema.parse(rawData);
+    } else {
+      throw new Error('Failed to retrieve commit history');
     }
   } catch (error) {
     throw error;
