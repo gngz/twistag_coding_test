@@ -53,8 +53,12 @@ export default function Sidebar() {
 
   const onQueryHandler = useCallback(async (query: string) => {
     if (query.length > 0) {
-      const results = await searchRepository(query, config.maxSearchResult);
-      setResults(results ?? []);
+      try {
+        const results = await searchRepository(query, config.maxSearchResult);
+        setResults(results ?? []);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       setResults([]);
     }
