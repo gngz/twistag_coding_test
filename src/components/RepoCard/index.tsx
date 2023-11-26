@@ -13,11 +13,19 @@ type Props = {
   color: React.CSSProperties['color'];
   dim?: boolean;
   onRemove?: () => void;
+  onMouseEnter?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  onMouseLeave?: (e: React.MouseEvent<HTMLDivElement>) => void;
 };
 
 function numberFormat(n: number) {
   const formatter = Intl.NumberFormat('en', { notation: 'compact' });
   return formatter.format(n);
+}
+
+function getRelativeTime(isoDate: string) {
+  return DateTime.fromISO(isoDate, {
+    locale: 'en',
+  }).toRelative();
 }
 
 export default function RepoCard({
@@ -27,21 +35,30 @@ export default function RepoCard({
   color,
   dim,
   onRemove,
+  onMouseEnter,
+  onMouseLeave,
 }: Props) {
-  const relativeTime = DateTime.fromISO(lastUpdate, {
-    locale: 'en',
-  }).toRelative();
+  const relativeTime = getRelativeTime(lastUpdate);
+  const mouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    onMouseEnter && onMouseEnter(e);
+  };
+
+  const mouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
+    onMouseLeave && onMouseLeave(e);
+  };
 
   const repoNames = repoFullName.split('/');
 
   return (
     <div
       className={classNames(
-        'repo-card flex justify-between rounded bg-secondary px-6 py-4 text-white',
+        'repo-card group flex justify-between rounded bg-secondary px-6 py-4 text-white',
         { 'opacity-30': dim }
       )}
       style={{ '--repo-color': color } as React.CSSProperties}
       role='button'
+      onMouseEnter={mouseEnter}
+      onMouseLeave={mouseLeave}
     >
       <div className='flex flex-col gap-2'>
         <div className='text-lg'>
@@ -56,7 +73,7 @@ export default function RepoCard({
           <div>Updated {relativeTime}</div>
         </div>
       </div>
-      <div className='flex items-center'>
+      <div className=' hidden items-center group-hover:flex'>
         <DeleteButton onClick={() => onRemove && onRemove()} />
       </div>
     </div>
