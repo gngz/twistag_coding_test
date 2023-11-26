@@ -28,7 +28,7 @@ function getRelativeTime(isoDate: string) {
   }).toRelative();
 }
 
-export default function RepoCard({
+export default function RepositoryCard({
   repoFullName,
   stars,
   lastUpdate,
