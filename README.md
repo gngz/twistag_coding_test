@@ -2,6 +2,13 @@
 
 This repository contains the Twistag Coding Test implementation, developed by [Gonçalo Passos](https://diogopassos.pt).
 
+Production Build at Vercel - https://twistag-coding-test.vercel.app/
+
+## Questions and Answers
+
+- [Pre-Assignment Question & Answer](./PRE_ASSIGNMENT_ANSWERS.md)
+- [Post-Assignment Question & Answer](./POST_ASSIGNMENT_ANSWERS.md)
+
 ## Development
 
 ### Tech Stack
