@@ -73,7 +73,7 @@ export default function RepositoryCard({
           <div>Updated {relativeTime}</div>
         </div>
       </div>
-      <div className=' hidden items-center group-hover:flex'>
+      <div className='hidden items-center group-hover:flex'>
         <DeleteButton onClick={() => onRemove && onRemove()} />
       </div>
     </div>
