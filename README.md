@@ -2,7 +2,7 @@
 
 This repository contains the Twistag Coding Test implementation, developed by [Gonçalo Passos](https://diogopassos.pt).
 
-Production Build at Vercel - https://twistag-coding-test.vercel.app/
+Production Build at Vercel - https://twistag-challenge.diogopassos.pt
 
 ## Questions and Answers
 
@@ -14,7 +14,7 @@ Production Build at Vercel - https://twistag-coding-test.vercel.app/
 ### Tech Stack
 
 - [Next.js](https://nextjs.org/docs)
-- [Typesript 5.2](https://www.typescriptlang.org/docs/) - Limited by Next.js
+- [Typescript 5.2](https://www.typescriptlang.org/docs/) - Limited by Next.js
 - [Tailwind](https://tailwindcss.com/docs/)
 - [SCSS](https://sass-lang.com/documentation/)
 
