@@ -32,3 +32,7 @@ Assignment Activities:
 ## Q: Are there any significant web development-related skills that you possess that were not demonstrated in this exercise? If so, what are they?
 
 **A**: As I said in the previous question, it wasn't possible to style the application the way I wanted.
+Other web-development related skills not demonstrated:
+- Website optimization
+- Devployment / DevOps
+- System Design
