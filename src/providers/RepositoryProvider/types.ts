@@ -4,6 +4,6 @@ export type UpdateContextType =
   | {
       addRepository: (repository: APIRepositoryModel) => void;
       removeRepository: (repository: APIRepositoryModel) => void;
-      selectRepostiory: (id: number | null) => void;
+      selectRepository: (id: number | undefined) => void;
     }
   | undefined;

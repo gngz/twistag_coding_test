@@ -1,10 +1,10 @@
 'use client';
 import EmptyState from '@/components/EmptyState';
-import RepoCard from '@/components/RepoCard';
+import RepositoryCard from '@/components/RepositoryCard';
 import SearchInput from '@/components/SearchInput';
 import {
   RepositoryContext,
-  RepositoryUpdateContext,
+  RepositoryUtilsContext,
   SelectedRepositoryContext,
 } from '@/providers/RepositoryProvider';
 import { searchRepo } from '@/services/github';
@@ -12,32 +12,32 @@ import { APIRepositoryModel } from '@/services/github/models/repository';
 import { useCallback, useContext, useState } from 'react';
 import SearchInputResult from './Result';
 
-function renderResult(repo: APIRepositoryModel) {
-  return <SearchInputResult repoName={repo.full_name} />;
+function renderResult(repository: APIRepositoryModel) {
+  return <SearchInputResult repoName={repository.full_name} />;
 }
 
 export default function Sidebar() {
   const [results, setResults] = useState<APIRepositoryModel[]>([]);
   const repoData = useContext(RepositoryContext);
   const selectedRepo = useContext(SelectedRepositoryContext);
-  const repoUtils = useContext(RepositoryUpdateContext);
+  const repositoryUtils = useContext(RepositoryUtilsContext);
 
   const addRepository = (repository: APIRepositoryModel) => {
-    if (repoUtils) {
-      repoUtils.addRepository(repository);
+    if (repositoryUtils) {
+      repositoryUtils.addRepository(repository);
     }
   };
 
   const removeRepository = (repository: APIRepositoryModel) => {
-    if (repoUtils) {
-      repoUtils.removeRepository(repository);
-      repoUtils.selectRepostiory(null);
+    if (repositoryUtils) {
+      repositoryUtils.removeRepository(repository);
+      repositoryUtils.selectRepository(undefined);
     }
   };
 
-  const selectRepository = (repositoryId: number | null) => {
-    if (repoUtils) {
-      repoUtils.selectRepostiory(repositoryId);
+  const selectRepository = (repositoryId: number | undefined) => {
+    if (repositoryUtils) {
+      repositoryUtils.selectRepository(repositoryId);
     }
   };
 
@@ -83,9 +83,9 @@ export default function Sidebar() {
         {renderEmptyState()}
         {repoData.map((repository) => {
           return (
-            <RepoCard
+            <RepositoryCard
               onMouseEnter={() => selectRepository(repository.id)}
-              onMouseLeave={() => selectRepository(null)}
+              onMouseLeave={() => selectRepository(undefined)}
               key={repository.id}
               repoFullName={repository.full_name}
               stars={repository.stars}

@@ -10,7 +10,7 @@ export const RepositoryContext = createContext<RepositoryModel[]>([]);
 export const SelectedRepositoryContext = createContext<number | undefined>(
   undefined
 );
-export const RepositoryUpdateContext =
+export const RepositoryUtilsContext =
   createContext<UpdateContextType>(undefined);
 
 type Props = {
@@ -18,16 +18,18 @@ type Props = {
 };
 
 export function RepositoryProvider({ children }: Props) {
-  const [repoData, setRepoData] = useState<RepositoryModel[]>([]);
-  const [selected, setSelected] = useState<number | undefined>(undefined);
+  const [repositoryData, setRepositoryData] = useState<RepositoryModel[]>([]);
+  const [selectedRepository, setSelectedRepository] = useState<
+    number | undefined
+  >(undefined);
 
   const addRepository = async (repository: APIRepositoryModel) => {
-    if (repoData.find((repo) => repo.id === repository.id)) {
+    if (repositoryData.find((repo) => repo.id === repository.id)) {
       return;
     }
 
     const data = await getRepositoryCommitHistory(repository.full_name);
-    setRepoData((old) => [
+    setRepositoryData((old) => [
       ...old,
       {
         ...repository,
@@ -39,26 +41,26 @@ export function RepositoryProvider({ children }: Props) {
   };
 
   const removeRepository = (repository: APIRepositoryModel) => {
-    setRepoData((old) => old.filter((repo) => repo.id != repository.id));
+    setRepositoryData((old) => old.filter((repo) => repo.id != repository.id));
   };
 
-  const selectRepository = (id: number | null) => {
-    setSelected(id ?? undefined);
+  const selectRepository = (id: number | undefined) => {
+    setSelectedRepository(id);
+  };
+
+  const repositoryUtils = {
+    addRepository,
+    removeRepository,
+    selectRepository,
   };
 
   return (
-    <SelectedRepositoryContext.Provider value={selected}>
-      <RepositoryUpdateContext.Provider
-        value={{
-          addRepository,
-          removeRepository,
-          selectRepostiory: selectRepository,
-        }}
-      >
-        <RepositoryContext.Provider value={repoData}>
+    <SelectedRepositoryContext.Provider value={selectedRepository}>
+      <RepositoryContext.Provider value={repositoryData}>
+        <RepositoryUtilsContext.Provider value={repositoryUtils}>
           {children}
-        </RepositoryContext.Provider>
-      </RepositoryUpdateContext.Provider>
+        </RepositoryUtilsContext.Provider>
+      </RepositoryContext.Provider>
     </SelectedRepositoryContext.Provider>
   );
 }
