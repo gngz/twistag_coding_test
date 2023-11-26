@@ -1,8 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
-import { useThrottle } from '@uidotdev/usehooks';
+import { useDebounce } from '@uidotdev/usehooks';
 import classNames from 'classnames';
-import React, { createRef, useCallback, useEffect, useState } from 'react';
+import React, { createRef, useEffect, useState } from 'react';
 import { Search } from 'react-feather';
 
 type Props<T> = {
@@ -21,11 +20,11 @@ export default function SearchInput<T>({
 }: Props<T>) {
   const inputRef = createRef<HTMLInputElement>();
   const [query, setQuery] = useState('');
-  const throttledQuery = useThrottle(query, 200);
+  const debouncedQuery = useDebounce(query, 200);
 
   useEffect(() => {
-    onQuery(throttledQuery);
-  }, [throttledQuery]);
+    onQuery(debouncedQuery);
+  }, [debouncedQuery, onQuery]);
 
   return (
     <div className='relative'>
@@ -46,7 +45,7 @@ export default function SearchInput<T>({
         />
         <Search size={24} />
       </div>
-      {throttledQuery.length > 0 && (
+      {debouncedQuery.length > 0 && (
         <div className='absolute top-full z-10 w-full rounded-b bg-white'>
           {results.map((result, idx) => (
             <button
