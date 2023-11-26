@@ -1,16 +1,19 @@
 'use client';
+import CustomTooltip from '@/components/CustomTooltip';
+import { RepositoryModel } from '@/models/repository';
 import {
-  LineChart,
+  RepositoryContext,
+  SelectedRepositoryContext,
+} from '@/providers/RepositoryProvider';
+import { useContext, useMemo } from 'react';
+import {
   Line,
-  XAxis,
-  YAxis,
+  LineChart,
   ResponsiveContainer,
   Tooltip,
+  XAxis,
+  YAxis,
 } from 'recharts';
-import { RepoContext } from '@/providers/RepoContext';
-import React, { useContext, useMemo } from 'react';
-import { RepositoryModel } from '@/models/repository';
-import CustomTooltip from '@/components/CustomTooltip';
 
 type Props = {};
 
@@ -28,21 +31,25 @@ function parseData(data: RepositoryModel[]) {
 }
 
 export default function Graph({}: Props) {
-  const context = useContext(RepoContext);
+  const repoData = useContext(RepositoryContext);
+  const selected = useContext(SelectedRepositoryContext);
+
   const parsedData = useMemo(() => {
-    return parseData(context);
-  }, [context]);
+    return parseData(repoData);
+  }, [repoData]);
 
   return (
     <ResponsiveContainer className='p-10'>
       <LineChart data={parsedData}>
-        {context.map((repo) => (
+        {repoData.map((repo) => (
           <Line
             key={repo.id}
             type='monotone'
             dataKey={repo.full_name}
             stroke={repo.color}
-            strokeOpacity={0.3}
+            strokeOpacity={
+              selected === undefined ? 1 : selected === repo.id ? 1 : 0.5
+            }
             dot={{ strokeWidth: 2, stroke: repo.color, fill: 'white', r: 6 }}
             activeDot={{ fill: repo.color, strokeWidth: 0, r: 6 }}
             strokeWidth={3}

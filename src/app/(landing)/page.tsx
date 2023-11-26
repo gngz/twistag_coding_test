@@ -1,10 +1,10 @@
-import { RepoProvider } from '@/providers/RepoContext';
-import Sidebar from './sections/Sidebar';
+import { RepositoryProvider } from '@/providers/RepositoryProvider';
 import Graph from './sections/Graph';
+import Sidebar from './sections/Sidebar';
 
 export default function Home() {
   return (
-    <RepoProvider>
+    <RepositoryProvider>
       <main className='flex h-screen '>
         <div className='flex-grow'>
           <Graph />
@@ -13,6 +13,6 @@ export default function Home() {
           <Sidebar />
         </div>
       </main>
-    </RepoProvider>
+    </RepositoryProvider>
   );
 }

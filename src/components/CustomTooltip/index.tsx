@@ -1,7 +1,6 @@
-import React from 'react';
-import { TooltipProps } from 'recharts';
-import { GitCommit } from 'react-feather';
 import { DateTime } from 'luxon';
+import { GitCommit } from 'react-feather';
+import { TooltipProps } from 'recharts';
 
 function getWeekDate(week: number) {
   const YEAR_WEEKS = 52;

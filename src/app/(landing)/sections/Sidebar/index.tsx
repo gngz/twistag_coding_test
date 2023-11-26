@@ -2,17 +2,71 @@
 import EmptyState from '@/components/EmptyState';
 import RepoCard from '@/components/RepoCard';
 import SearchInput from '@/components/SearchInput';
-import { RepoContext, RepoUpdateContext } from '@/providers/RepoContext';
+import {
+  RepositoryContext,
+  RepositoryUpdateContext,
+  SelectedRepositoryContext,
+} from '@/providers/RepositoryProvider';
 import { searchRepo } from '@/services/github';
 import { APIRepositoryModel } from '@/services/github/models/repository';
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
+import SearchInputResult from './Result';
 
-type Props = {};
+function renderResult(repo: APIRepositoryModel) {
+  return <SearchInputResult repoName={repo.full_name} />;
+}
 
-export default function Sidebar({}: Props) {
+export default function Sidebar() {
   const [results, setResults] = useState<APIRepositoryModel[]>([]);
-  const repoData = useContext(RepoContext);
-  const repoUtils = useContext(RepoUpdateContext);
+  const repoData = useContext(RepositoryContext);
+  const selectedRepo = useContext(SelectedRepositoryContext);
+  const repoUtils = useContext(RepositoryUpdateContext);
+
+  const addRepository = (repository: APIRepositoryModel) => {
+    if (repoUtils) {
+      repoUtils.addRepository(repository);
+    }
+  };
+
+  const removeRepository = (repository: APIRepositoryModel) => {
+    if (repoUtils) {
+      repoUtils.removeRepository(repository);
+      repoUtils.selectRepostiory(null);
+    }
+  };
+
+  const selectRepository = (repositoryId: number | null) => {
+    if (repoUtils) {
+      repoUtils.selectRepostiory(repositoryId);
+    }
+  };
+
+  const renderEmptyState = () => {
+    if (!repoData.length) return <EmptyState />;
+  };
+
+  const resultSelectHanlder = (result: APIRepositoryModel) => {
+    setResults([]);
+    addRepository(result);
+  };
+
+  const onQueryHandler = useCallback(async (query: string) => {
+    if (query.length > 0) {
+      const results = await searchRepo(query);
+      setResults(results ?? []);
+    } else {
+      setResults([]);
+    }
+  }, []);
+
+  async (query: string) => {
+    if (query.length > 0) {
+      const results = await searchRepo(query);
+      setResults(results ?? []);
+    } else {
+      setResults([]);
+    }
+  };
 
   return (
     <aside className='col-span-3 h-full w-full bg-primary px-8 pt-20'>
@@ -20,37 +74,25 @@ export default function Sidebar({}: Props) {
         <SearchInput<APIRepositoryModel>
           results={results}
           placeholder='Search a Github Repository...'
-          onResultSelect={(result) => {
-            setResults([]);
-            repoUtils && repoUtils.addRepository(result);
-          }}
-          renderResult={(repo) => (
-            <div className='text-lg font-bold'>{repo.full_name}</div>
-          )}
-          onQuery={async (query) => {
-            if (query.length > 0) {
-              const results = await searchRepo(query);
-              setResults(results ?? []);
-            } else {
-              setResults([]);
-            }
-          }}
+          onResultSelect={resultSelectHanlder}
+          renderResult={renderResult}
+          onQuery={onQueryHandler}
         />
       </div>
       <div className='flex flex-col gap-4'>
-        {repoData.length === 0 && <EmptyState />}
-        {repoData.map((repo) => {
+        {renderEmptyState()}
+        {repoData.map((repository) => {
           return (
             <RepoCard
-              key={repo.id}
-              repoFullName={repo.full_name}
-              stars={repo.stars}
-              lastUpdate={repo.updated_at}
-              color={repo.color}
-              dim={false}
-              onRemove={() => {
-                repoUtils?.removeRepository(repo);
-              }}
+              onMouseEnter={() => selectRepository(repository.id)}
+              onMouseLeave={() => selectRepository(null)}
+              key={repository.id}
+              repoFullName={repository.full_name}
+              stars={repository.stars}
+              lastUpdate={repository.updated_at}
+              color={repository.color}
+              dim={selectedRepo ? selectedRepo != repository.id : false}
+              onRemove={() => removeRepository(repository)}
             />
           );
         })}

@@ -1,6 +1,6 @@
+import '@/styles/global.scss';
 import type { Metadata, Viewport } from 'next';
 import { Roboto } from 'next/font/google';
-import '@/styles/global.scss';
 
 const font = Roboto({
   weight: ['400', '700'],
