@@ -18,6 +18,7 @@ import {
 type Props = {};
 
 function parseData(data: RepositoryModel[]) {
+  if (data.length === 0) return [];
   const parsedData = new Array<Record<string, number | string>>();
   for (let week = 0; week < 52; week++) {
     const weekEntry: Record<string, number | string> = {};

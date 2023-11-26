@@ -5,7 +5,7 @@ import Sidebar from './sections/Sidebar';
 export default function Home() {
   return (
     <RepositoryProvider>
-      <main className='flex h-screen '>
+      <main className='flex h-screen'>
         <div className='flex-grow'>
           <Graph />
         </div>
